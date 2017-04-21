@@ -15,6 +15,12 @@ class OwnershipsController < ApplicationController
       current_user.want(@item)
       flash[:success] = '商品を Want しました。'
     end
+    
+    # Having関係として保存
+    if params[:type] == 'Having'
+      current_user.having(@item)
+      flash[:success] = '商品を Having しました。'
+    end
 
     redirect_back(fallback_location: root_path)
   end
@@ -25,6 +31,11 @@ class OwnershipsController < ApplicationController
     if params[:type] == 'Want'
       current_user.unwant(@item) 
       flash[:success] = '商品の Want を解除しました。'
+    end
+    
+    if params[:type] == 'Having'
+      current_user.unhaving(@item) 
+      flash[:success] = '商品の Having を解除しました。'
     end
 
     redirect_back(fallback_location: root_path)
