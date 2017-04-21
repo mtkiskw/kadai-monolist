@@ -1,0 +1,2 @@
+class Having < Ownership
+end

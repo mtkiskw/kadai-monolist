@@ -8,10 +8,13 @@ class User < ApplicationRecord
   
   has_many :ownerships
   has_many :items, through: :ownerships
-   has_many :wants
+  has_many :wants
   has_many :want_items, through: :wants, class_name: 'Item', source: :item
   
-   def want(item)
+  has_many :havings
+  has_many :having_items, through: :havings, class_name: 'Item', source: :item
+  
+  def want(item)
     self.wants.find_or_create_by(item_id: item.id)
   end
 
@@ -22,6 +25,19 @@ class User < ApplicationRecord
 
   def want?(item)
     self.want_items.include?(item)
+  end
+  
+  def having(item)
+    self.havings.find_or_create_by(item_id: item.id)
+  end
+
+  def unhaving(item)
+    having = self.havings.find_by(item_id: item.id)
+    having.destroy if having
+  end
+
+  def having?(item)
+    self.having_items.include?(item)
   end
   
 end
